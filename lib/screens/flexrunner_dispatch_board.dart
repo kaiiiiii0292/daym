@@ -323,7 +323,7 @@ class _DeliveryCard extends StatelessWidget {
                       label: const Text('Accept run'),
                     )
                         : job.status == 'delivered'
-                      ? const OutlinedButton.icon(
+                      ? OutlinedButton.icon(
                           onPressed: null,
                           icon: Icon(Icons.check_circle_outline),
                           label: Text('Delivered to Classroom'),

@@ -390,6 +390,7 @@ class _HandoffScreenState extends State<HandoffScreen> {
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodySmall,
             ),
+          ],
           else if (_error != null)
             Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

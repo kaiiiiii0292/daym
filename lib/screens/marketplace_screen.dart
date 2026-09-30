@@ -521,6 +521,7 @@ class _PageHeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isLender = role == FlexRole.lender;
+    final displayName = name;
     final title = switch (role) {
       FlexRole.borrower => 'Gear for your next class.',
       FlexRole.lender => 'Your gear, rented nearby.',
@@ -540,7 +541,9 @@ class _PageHeading extends StatelessWidget {
             ),
           ),
         Text(
-          name == null || name.isEmpty ? title : 'Hi, ${name.split(' ').first}.',
+            displayName == null || displayName.isEmpty
+              ? title
+              : 'Hi, ${displayName.split(' ').first}.',
           style: Theme.of(context).textTheme.headlineMedium,
         ),
         const SizedBox(height: 6),
