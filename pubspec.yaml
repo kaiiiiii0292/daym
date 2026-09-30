@@ -1,0 +1,25 @@
+name: flexshare
+description: Campus equipment rental and student courier marketplace for PSU.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.6.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_map: ^8.1.1
+  image_picker: ^1.1.2
+  latlong2: ^0.9.1
+  mobile_scanner: ^6.0.7
+  qr_flutter: ^4.1.0
+  supabase_flutter: ^2.8.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true

@@ -1,0 +1,62 @@
+name: Deploy FlexShare preview
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Pages
+        uses: actions/configure-pages@v5
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Generate web platform files
+        run: flutter create --project-name flexshare --platforms=web /tmp/flexshare-web
+
+      - name: Use generated web shell
+        run: cp -R /tmp/flexshare-web/web ./web
+
+      - name: Fetch dependencies
+        run: flutter pub get
+
+      - name: Build Flutter web preview
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: >-
+          flutter build web --release
+          --base-href "/${{ github.event.repository.name }}/"
+          --dart-define="SUPABASE_URL=$SUPABASE_URL"
+          --dart-define="SUPABASE_ANON_KEY=$SUPABASE_ANON_KEY"
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/web
+
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
